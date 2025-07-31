@@ -1584,7 +1584,7 @@ void sock_map_destroy(struct sock *sk)
 		saved_destroy = psock->saved_destroy;
 		sock_map_remove_links(sk, psock);
 		rcu_read_unlock();
-		sk_psock_stop(psock);
+		sk_psock_stop(sk, psock);
 		sk_psock_put(sk, psock);
 	}
 	if (WARN_ON_ONCE(saved_destroy == sock_map_destroy))
@@ -1610,7 +1610,7 @@ void sock_map_close(struct sock *sk, long timeout)
 		saved_close = psock->saved_close;
 		sock_map_remove_links(sk, psock);
 		rcu_read_unlock();
-		sk_psock_stop(psock);
+		sk_psock_stop(sk, psock);
 		release_sock(sk);
 		cancel_work_sync(&psock->work);
 		sk_psock_put(sk, psock);
